@@ -9,6 +9,7 @@ interface ModaleProps {
     backgroundcolor?: string;
     textcolor?: string;
     bordercolor?: string;
+    onClose: () => void;
 }
 declare const Modale: React.FC<ModaleProps>;
 

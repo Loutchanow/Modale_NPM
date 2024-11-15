@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Button from './Button';
-import { useEffect, useState } from 'react';
 
 interface ModaleProps {
   // Open or close the modale
@@ -19,11 +18,16 @@ interface ModaleProps {
   backgroundcolor?: string;
   textcolor?: string;
   bordercolor?: string;
+  onClose: () => void;
 }
 interface ModaleContentProps {
   backgroundcolor?: string;
   textcolor?: string;
   bordercolor?: string;
+}
+
+interface ModaleCrossProps {
+onClick: () => void;
 }
 
 
@@ -38,8 +42,7 @@ const ModaleOverlay = styled.div`
   align-items: center;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.8);
-  `;
-  
+`;
 
 const ModaleContent = styled.div<ModaleContentProps>`
   background-color: ${({ backgroundcolor }) => backgroundcolor || 'white'};
@@ -52,7 +55,6 @@ const ModaleContent = styled.div<ModaleContentProps>`
   color: ${({ textcolor }) => textcolor || 'white'};
 `;
 
-
 const ModaleHeader = styled.div`
   margin-bottom: 10px;
   display: flex;
@@ -62,13 +64,11 @@ const ModaleHeader = styled.div`
     margin: 0;
   }
 `;
-const ModaleCross = styled.div`
-cursor: pointer;
-padding: 5px;
-font-size: 1.5rem;
+const ModaleCross = styled.div<ModaleCrossProps>`
+  cursor: pointer;
+  padding: 5px;
+  font-size: 1.5rem;
 `;
-
-
 
 const ModaleBody = styled.div`
   margin-bottom: 20px;
@@ -80,39 +80,50 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
   button {
     margin-right: 10px;
-  } 
-  `;
-  
-  const Modale: React.FC<ModaleProps> = ({ open, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
-    const [isClosed, setIsClosed] = useState(false);
-    useEffect(() => {
-      if (open) {
-        setIsClosed(false);
-      }
-    }, [open]);
-  
-    const closeModale = () => {
-      setIsClosed(true);
-    };
+  }
+`;
 
-    if (!open || isClosed) return null;
+const Modale: React.FC<ModaleProps> = ({ open, onClose, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
+  if (!open) return null;
 
-
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
   return (
-    <ModaleOverlay >
+    <ModaleOverlay>
       <ModaleContent backgroundcolor={backgroundcolor} textcolor={textcolor} bordercolor={bordercolor}>
         <ModaleHeader>
           <h2>{title}</h2>
-          <ModaleCross onClick={closeModale} >
+          <ModaleCross  onClick={handleClose}>
             <p> ✕ </p>
           </ModaleCross>
         </ModaleHeader>
         <ModaleBody>
-          <p>{message}</p> 
+          <p>{message}</p>
         </ModaleBody>
         <ButtonContainer>
-          <Button onClick={actionButtonOne} label={labelButtonOne} bordercolor={bordercolor} backgroundcolor={backgroundcolor} textcolor={textcolor} />
-          <Button onClick={actionButtonTwo} label={labelButtonTwo} bordercolor={bordercolor} backgroundcolor={backgroundcolor} textcolor={textcolor} />
+          <Button
+            onClick={() => {
+              actionButtonOne();
+              handleClose();
+            }}
+            label={labelButtonOne}
+            bordercolor={bordercolor}
+            backgroundcolor={backgroundcolor}
+            textcolor={textcolor}
+          />
+          <Button
+            onClick={() => {
+              actionButtonTwo();
+              handleClose();
+            }}
+            label={labelButtonTwo}
+            bordercolor={bordercolor}
+            backgroundcolor={backgroundcolor}
+            textcolor={textcolor}
+          />
         </ButtonContainer>
       </ModaleContent>
     </ModaleOverlay>

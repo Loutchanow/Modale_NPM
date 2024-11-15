@@ -66,6 +66,7 @@ var Button = ({ label, onClick, backgroundcolor, textcolor, bordercolor }) => {
 var Button_default = Button;
 
 // src/component/Modale.tsx
+var import_react = require("react");
 var import_jsx_runtime2 = require("react/jsx-runtime");
 var ModaleOverlay = import_styled_components2.default.div`
   position: fixed;
@@ -91,9 +92,17 @@ var ModaleContent = import_styled_components2.default.div`
 `;
 var ModaleHeader = import_styled_components2.default.div`
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   h2 {
     margin: 0;
   }
+`;
+var ModaleCross = import_styled_components2.default.div`
+cursor: pointer;
+padding: 5px;
+font-size: 1.5rem;
 `;
 var ModaleBody = import_styled_components2.default.div`
   margin-bottom: 20px;
@@ -106,11 +115,18 @@ var ButtonContainer = import_styled_components2.default.div`
   button {
     margin-right: 10px;
   } 
-`;
+  `;
 var Modale = ({ open, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
-  if (!open) return null;
+  const [close, setClose] = (0, import_react.useState)(false);
+  const closeModale = () => {
+    setClose(true);
+  };
+  if (!open || close) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(ModaleOverlay, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(ModaleContent, { backgroundcolor, textcolor, bordercolor, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(ModaleHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h2", { children: title }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(ModaleHeader, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h2", { children: title }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(ModaleCross, { onClick: closeModale, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: " \u2715 " }) })
+    ] }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(ModaleBody, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: message }) }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(ButtonContainer, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Button_default, { onClick: actionButtonOne, label: labelButtonOne, bordercolor, backgroundcolor, textcolor }),

@@ -2,9 +2,9 @@ interface ModaleProps {
     open: boolean;
     actionButtonOne: () => void;
     actionButtonTwo: () => void;
-    message: string;
     labelButtonOne: string;
     labelButtonTwo: string;
+    message: string;
     title: string;
     backgroundcolor?: string;
     textcolor?: string;

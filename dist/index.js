@@ -30,6 +30,7 @@ var Button = ({ label, onClick, backgroundcolor, textcolor, bordercolor }) => {
 var Button_default = Button;
 
 // src/component/Modale.tsx
+import { useState } from "react";
 import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 var ModaleOverlay = styled2.div`
   position: fixed;
@@ -55,9 +56,17 @@ var ModaleContent = styled2.div`
 `;
 var ModaleHeader = styled2.div`
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   h2 {
     margin: 0;
   }
+`;
+var ModaleCross = styled2.div`
+cursor: pointer;
+padding: 5px;
+font-size: 1.5rem;
 `;
 var ModaleBody = styled2.div`
   margin-bottom: 20px;
@@ -70,11 +79,18 @@ var ButtonContainer = styled2.div`
   button {
     margin-right: 10px;
   } 
-`;
+  `;
 var Modale = ({ open, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
-  if (!open) return null;
+  const [close, setClose] = useState(false);
+  const closeModale = () => {
+    setClose(true);
+  };
+  if (!open || close) return null;
   return /* @__PURE__ */ jsx2(ModaleOverlay, { children: /* @__PURE__ */ jsxs(ModaleContent, { backgroundcolor, textcolor, bordercolor, children: [
-    /* @__PURE__ */ jsx2(ModaleHeader, { children: /* @__PURE__ */ jsx2("h2", { children: title }) }),
+    /* @__PURE__ */ jsxs(ModaleHeader, { children: [
+      /* @__PURE__ */ jsx2("h2", { children: title }),
+      /* @__PURE__ */ jsx2(ModaleCross, { onClick: closeModale, children: /* @__PURE__ */ jsx2("p", { children: " \u2715 " }) })
+    ] }),
     /* @__PURE__ */ jsx2(ModaleBody, { children: /* @__PURE__ */ jsx2("p", { children: message }) }),
     /* @__PURE__ */ jsxs(ButtonContainer, { children: [
       /* @__PURE__ */ jsx2(Button_default, { onClick: actionButtonOne, label: labelButtonOne, bordercolor, backgroundcolor, textcolor }),

@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 import Button from './Button';
+import { useEffect, useState } from 'react';
 
 interface ModaleProps {
+  // Open or close the modale
   open: boolean;
+  // both action you can create triggered by buttonOne and buttonTwo
   actionButtonOne: () => void;
   actionButtonTwo: () => void;
-  message: string;
+  // both lable of those 2 actions buttons
   labelButtonOne: string;
   labelButtonTwo: string;
+  //Message for your modale
+  message: string;
+  //Title for your modale
   title: string;
+  // SOme style
   backgroundcolor?: string;
   textcolor?: string;
   bordercolor?: string;
@@ -48,10 +55,21 @@ const ModaleContent = styled.div<ModaleContentProps>`
 
 const ModaleHeader = styled.div`
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   h2 {
     margin: 0;
   }
 `;
+const ModaleCross = styled.div`
+cursor: pointer;
+padding: 5px;
+font-size: 1.5rem;
+`;
+
+
+
 const ModaleBody = styled.div`
   margin-bottom: 20px;
 `;
@@ -63,16 +81,31 @@ const ButtonContainer = styled.div`
   button {
     margin-right: 10px;
   } 
-`;
+  `;
+  
+  const Modale: React.FC<ModaleProps> = ({ open, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
+    const [isClosed, setIsClosed] = useState(false);
+    useEffect(() => {
+      if (open) {
+        setIsClosed(false);
+      }
+    }, [open]);
+  
+    const closeModale = () => {
+      setIsClosed(true);
+    };
 
-const Modale: React.FC<ModaleProps> = ({ open, message, title, backgroundcolor, textcolor, bordercolor, actionButtonOne, actionButtonTwo, labelButtonOne, labelButtonTwo }) => {
-  if (!open) return null;
+    if (!open || isClosed) return null;
+
 
   return (
     <ModaleOverlay >
       <ModaleContent backgroundcolor={backgroundcolor} textcolor={textcolor} bordercolor={bordercolor}>
         <ModaleHeader>
           <h2>{title}</h2>
+          <ModaleCross onClick={closeModale} >
+            <p> ✕ </p>
+          </ModaleCross>
         </ModaleHeader>
         <ModaleBody>
           <p>{message}</p> 

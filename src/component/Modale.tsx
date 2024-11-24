@@ -87,9 +87,7 @@ const Modale: React.FC<ModaleProps> = ({ open, onClose, message, title, backgrou
   if (!open) return null;
 
   const handleClose = () => {
-    if (onClose) {
       onClose();
-    }
   };
   return (
     <ModaleOverlay>

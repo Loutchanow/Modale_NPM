@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Modale from './component/Modale';
 
 function App() {
+  const [modalOpen, setModalOpen] = useState(true);
   const actionOne = () => {
     console.log('action1');
   };
@@ -11,7 +13,8 @@ function App() {
 
   return (
     <Modale
-      open={true}
+      open={modalOpen}
+      onClose={() => setModalOpen(false)} 
       message={'Le message'}
       title={'Titre'}
       actionButtonOne={actionOne}
